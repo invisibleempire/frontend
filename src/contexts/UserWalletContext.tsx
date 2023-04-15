@@ -3,11 +3,17 @@ import React, {
   ReactNode,
   useState,
   useContext,
+  useEffect,
 } from "react";
 
 type UserWalletContextData = {
-  userInfo: boolean;
-  setUserInfo: (b: boolean) => void;
+  wallet: string | null;
+  setWallet: (wallet: string | null) => void;
+  setError: (err: boolean) => void;
+  setStartGame: (err: boolean) => void;
+  error: boolean;
+  startGame: boolean;
+  walletConnected: boolean;
 };
 
 type UserWalletProviderProps = {
@@ -21,10 +27,24 @@ export const UserWalletContext = createContext(
 export function UserWalletProvider({
   children,
 }: UserWalletProviderProps) {
-  const [userInfo, setUserInfo] = useState(false);
+  const [wallet, setWallet] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+  const [startGame, setStartGame] = useState(false);
+
+  const [walletConnected, setWalletConnected] = useState(false);
 
   return (
-    <UserWalletContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserWalletContext.Provider
+      value={{
+        wallet,
+        setWallet,
+        walletConnected,
+        error,
+        setError,
+        setStartGame,
+        startGame,
+      }}
+    >
       {children}
     </UserWalletContext.Provider>
   );
